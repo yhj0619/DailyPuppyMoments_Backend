@@ -1,5 +1,8 @@
 package com.example.dpm.config;
 
-public class CustomSecurityConfig {
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
+public class CustomSecurityConfig {
+	
 }
