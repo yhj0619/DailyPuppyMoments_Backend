@@ -23,7 +23,7 @@ public class OauthController {
     private final OauthService oauthService;
 
     @PostMapping("/login/oauth/{provider}")
-    public OauthResponseDto login(@PathVariable String provider, @RequestBody OauthRequestDto oauthRequestDto,
+    public OauthResponseDto login(@PathVariable("provider") String provider, @RequestBody OauthRequestDto oauthRequestDto,
                                   HttpServletResponse response) {
         OauthResponseDto oauthResponseDto = new OauthResponseDto();
         switch (provider) {

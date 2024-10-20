@@ -20,11 +20,13 @@ import lombok.NoArgsConstructor;
 public class MemberEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int member_id;
+    private Long member_id;
 
     private String socialId;
 
     private String nickname;
+    
+    private String profile_image;
     
     private int point;
     
@@ -34,4 +36,5 @@ public class MemberEntity {
 
     @Column(name = "refresh_token")
     private String refreshToken;
+
 }

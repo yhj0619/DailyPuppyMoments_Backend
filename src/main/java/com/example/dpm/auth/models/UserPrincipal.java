@@ -16,10 +16,9 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 @Getter
 @AllArgsConstructor
-// SecurityContext authentication에 저장될 유저정보
 public class UserPrincipal implements UserDetails {
 
-    private int id;
+    private Long id;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;

@@ -8,11 +8,13 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class MemberDto {
-    private int member_id;
+    private Long member_id;
 
     private String socialId; //사용자 이메일
 
-    private String nickname;
+    private String profile_nickname;
+    
+    private String profile_image;
 
     private String refreshToken;
 }

@@ -23,7 +23,7 @@ public class OauthService {
     }
 
     //액세스토큰, 리프레시토큰 생성
-    public String getTokens(int id, HttpServletResponse response) {
+    public String getTokens(Long id, HttpServletResponse response) {
         final String accessToken = jwtTokenService.createAccessToken(String.valueOf(id));
         final String refreshToken = jwtTokenService.createRefreshToken();
 

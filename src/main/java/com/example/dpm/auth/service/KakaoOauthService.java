@@ -28,22 +28,34 @@ public class KakaoOauthService {
                 .block();
     }
 
-    // 카카오API에서 가져온 유저정보를 DB에 저장
-    public MemberDto getUserProfileByToken(String accessToken){
+ // 카카오API에서 가져온 유저정보를 DB에 저장
+    public MemberDto getUserProfileByToken(String accessToken) {
         Map<String, Object> userAttributesByToken = getUserAttributesByToken(accessToken);
+        System.out.println("1. accessToken: " + accessToken);
+        
         KakaoInfoDto kakaoInfoDto = new KakaoInfoDto(userAttributesByToken);
+        
+        // MemberDto에 추가된 nickname과 profileImage 정보도 포함
         MemberDto memberDto = MemberDto.builder()
                 .member_id(kakaoInfoDto.getId())
                 .socialId(kakaoInfoDto.getEmail())
+                .profile_nickname(kakaoInfoDto.getNickname())  // 수정된 부분
+                .profile_image(kakaoInfoDto.getProfileImage())  // 수정된 부분
                 .build();
-        if(memberService.findById(memberDto.getMember_id()) != null) {
-        	MemberEntity memberEntity = memberService.toEntity(memberDto);
-        	memberService.update(memberEntity);
-        	
+        
+        System.out.println("2. memberDto: " + memberDto);
+        
+        if (memberService.findById(memberDto.getMember_id()) != null) {
+            MemberEntity memberEntity = memberService.toEntity(memberDto);
+            memberService.update(memberEntity);
+            System.out.println("3. memberService.update done");
         } else {
-        	MemberEntity memberEntity = memberService.toEntity(memberDto);
-        	memberService.save(memberEntity);
+            MemberEntity memberEntity = memberService.toEntity(memberDto);
+            memberService.save(memberEntity);
+            System.out.println("3-1. memberService.save done");
         }
+        
         return memberDto;
     }
+
 }

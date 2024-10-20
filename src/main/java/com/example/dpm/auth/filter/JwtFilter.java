@@ -35,8 +35,8 @@ public class JwtFilter extends GenericFilterBean {
         String jwt = resolveToken(httpServletRequest);
 
         if (StringUtils.hasText(jwt) && jwtTokenService.validateToken(jwt)) {
-        	int userId = Math.toIntExact(Long.valueOf(jwtTokenService.getPayload(jwt))); // 토큰에서 userId를 가져와 int로 변환
-            MemberDto memberDto = memberService.findById(userId); // userId로
+        	Long userId = Long.valueOf(jwtTokenService.getPayload(jwt)); 
+            MemberDto memberDto = memberService.findById(userId); 
             if(memberDto == null) {
                 throw new CustomException(ErrorCode.NOT_EXIST_USER);
             }
@@ -50,7 +50,7 @@ public class JwtFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    // Header에서 Access Token 가져오기
+    // GET Header Access Token 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
