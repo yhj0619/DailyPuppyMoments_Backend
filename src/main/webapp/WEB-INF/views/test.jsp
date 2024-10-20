@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<!-- 
+	<img src="/DailyPuppyMoments/src/main/resources/static/img/kakao_login/kakao_login_large_wide.png"/>
+	 -->
+	test
+	
 </body>
 </html>
