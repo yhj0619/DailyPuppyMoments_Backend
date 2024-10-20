@@ -23,12 +23,13 @@ public class MemberService {
             memberEntity.getMember_id(),
             memberEntity.getSocialId(),
             memberEntity.getNickname(),
+            memberEntity.getProfile_image(),
             memberEntity.getRefreshToken()
         );
     }
 
     // memberId로 찾은 후 DTO로 변환
-    public MemberDto findById(int memberId) {
+    public MemberDto findById(Long memberId) {
         MemberEntity memberEntity = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
         
@@ -47,7 +48,7 @@ public class MemberService {
         return memberRepository.save(memberEntity); // save 메서드는 존재하면 업데이트, 없으면 삽입
     }
 
-    public MemberEntity updateRefreshToken(int member_id, String refreshToken) {
+    public MemberEntity updateRefreshToken(Long member_id, String refreshToken) {
         Optional<MemberEntity> userOpt = memberRepository.findById(member_id);
         if (userOpt.isPresent()) {
         	MemberEntity memberEntity = userOpt.get();

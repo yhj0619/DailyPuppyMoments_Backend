@@ -20,7 +20,7 @@ public class MemberController {
 	
 	@GetMapping("/member/{member_id}")
     public MemberDto info() {
-        final int userId = SecurityUtil.getCurrentUserId();
+        final Long userId = SecurityUtil.getCurrentUserId();
         MemberDto memberDto = memberService.findById(userId);
         if(memberDto == null) {
             throw new CustomException(ErrorCode.NOT_EXIST_USER);
