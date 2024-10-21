@@ -22,14 +22,14 @@ public class OauthService {
         return getTokens(memberDto.getMember_id(), response);
     }
 
-    //액세스토큰, 리프레시토큰 생성
+ // 액세스토큰, 리프레시토큰 생성
     public String getTokens(Long id, HttpServletResponse response) {
         final String accessToken = jwtTokenService.createAccessToken(String.valueOf(id));
         final String refreshToken = jwtTokenService.createRefreshToken();
 
         MemberDto memberDto = memberService.findById(id);
-        memberDto.setRefreshToken(refreshToken);
-        memberService.updateRefreshToken(memberDto.getMember_id(), refreshToken);
+        memberDto.setRefreshToken(refreshToken);  // refresh_token을 memberDto에 설정
+        memberService.updateRefreshToken(memberDto.getMember_id(), refreshToken);  // DB에 업데이트
 
         jwtTokenService.addRefreshTokenToCookie(refreshToken, response);
         return accessToken;

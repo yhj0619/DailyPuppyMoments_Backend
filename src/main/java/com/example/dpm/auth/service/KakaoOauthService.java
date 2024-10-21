@@ -48,11 +48,11 @@ public class KakaoOauthService {
         if (memberService.findById(memberDto.getMember_id()) != null) {
             MemberEntity memberEntity = memberService.toEntity(memberDto);
             memberService.update(memberEntity);
-            System.out.println("3. memberService.update done");
+            System.out.println("3.UPDATE : memberService.update done");
         } else {
             MemberEntity memberEntity = memberService.toEntity(memberDto);
             memberService.save(memberEntity);
-            System.out.println("3-1. memberService.save done");
+            System.out.println("3.SAVE : memberService.save done");
         }
         
         return memberDto;
