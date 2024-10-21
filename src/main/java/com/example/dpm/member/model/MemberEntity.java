@@ -1,4 +1,4 @@
-package com.example.dpm.model;
+package com.example.dpm.member.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

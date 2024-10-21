@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.example.dpm.auth.enums.MemberRole;
-import com.example.dpm.dto.MemberDto;
+import com.example.dpm.member.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

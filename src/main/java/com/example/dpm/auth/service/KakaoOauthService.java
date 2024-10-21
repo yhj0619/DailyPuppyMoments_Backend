@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.dpm.auth.dto.KakaoInfoDto;
-import com.example.dpm.dto.MemberDto;
-import com.example.dpm.model.MemberEntity;
-import com.example.dpm.service.MemberService;
+import com.example.dpm.member.dto.MemberDto;
+import com.example.dpm.member.model.MemberEntity;
+import com.example.dpm.member.service.MemberService;
 
 import java.util.Map;
 

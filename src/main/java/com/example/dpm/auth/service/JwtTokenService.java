@@ -16,8 +16,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;

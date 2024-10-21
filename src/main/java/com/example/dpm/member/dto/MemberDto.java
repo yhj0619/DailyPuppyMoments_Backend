@@ -1,4 +1,4 @@
-package com.example.dpm.dto;
+package com.example.dpm.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

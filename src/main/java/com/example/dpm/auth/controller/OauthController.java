@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.dpm.auth.dto.OauthRequestDto;
 import com.example.dpm.auth.dto.OauthResponseDto;
 import com.example.dpm.auth.dto.RefreshTokenResponseDto;
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
 import com.example.dpm.auth.service.OauthService;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

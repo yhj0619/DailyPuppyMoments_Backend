@@ -1,4 +1,4 @@
-package com.example.dpm.auth.exception;
+package com.example.dpm.exception;
 
 public class CustomException extends RuntimeException {
 

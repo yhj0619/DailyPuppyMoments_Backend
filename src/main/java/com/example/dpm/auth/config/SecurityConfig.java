@@ -12,10 +12,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.dpm.auth.enums.MemberRole;
-import com.example.dpm.auth.exception.ExceptionHandlerFilter;
 import com.example.dpm.auth.filter.JwtFilter;
 import com.example.dpm.auth.service.JwtTokenService;
-import com.example.dpm.service.MemberService;
+import com.example.dpm.exception.ExceptionHandlerFilter;
+import com.example.dpm.member.service.MemberService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

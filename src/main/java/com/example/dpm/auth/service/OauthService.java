@@ -4,10 +4,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
-import com.example.dpm.dto.MemberDto;
-import com.example.dpm.service.MemberService;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
+import com.example.dpm.member.dto.MemberDto;
+import com.example.dpm.member.service.MemberService;
 
 @RequiredArgsConstructor
 @Service
