@@ -1,5 +1,6 @@
 package com.example.dpm.member.model;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,21 +20,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "member")
 public class MemberEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long member_id;
 
+	@Nullable
     private String socialId;
 
     private String nickname;
     
     private String profile_image;
-    
-    private int point;
-    
-    private boolean attendance;
-    
-    private boolean is_deleted;
+//    
+//    private int point;
+//    
+//    private boolean attendance;
+//    
+//    private boolean is_deleted;
 
+    @Nullable
     @Column(name = "refresh_token")
     private String refreshToken;
 

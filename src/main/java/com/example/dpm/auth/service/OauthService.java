@@ -18,7 +18,9 @@ public class OauthService {
 
     //카카오 로그인
     public String loginWithKakao(String accessToken, HttpServletResponse response) {
+    	System.out.println("#OauthService: 또여기????");
         MemberDto memberDto = kakaoOauthService.getUserProfileByToken(accessToken);
+        System.out.println("#OauthService: access token????" + getTokens(memberDto.getMember_id(), response));
         return getTokens(memberDto.getMember_id(), response);
     }
 
