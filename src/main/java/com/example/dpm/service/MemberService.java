@@ -41,6 +41,7 @@ public class MemberService {
     }
 
     public MemberEntity save(MemberEntity memberEntity) {
+    	System.out.println("###################################");
         return memberRepository.save(memberEntity);
     }
 
@@ -48,14 +49,11 @@ public class MemberService {
         return memberRepository.save(memberEntity); // save 메서드는 존재하면 업데이트, 없으면 삽입
     }
 
-    public MemberEntity updateRefreshToken(Long member_id, String refreshToken) {
-        Optional<MemberEntity> userOpt = memberRepository.findById(member_id);
-        if (userOpt.isPresent()) {
-        	MemberEntity memberEntity = userOpt.get();
-        	memberEntity.setRefreshToken(refreshToken);
-            return memberRepository.save(memberEntity);
-        }
-        return null;
+    public void updateRefreshToken(Long memberId, String refreshToken) {
+        MemberEntity memberEntity = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+        memberEntity.setRefreshToken(refreshToken); // refreshToken 필드에 값 설정
+        memberRepository.save(memberEntity); // 변경된 엔티티 저장
     }
     
     // Optional<MemberEntity>를 MemberDto로 변환하는 메서드 추가

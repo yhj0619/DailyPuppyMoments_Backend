@@ -12,6 +12,7 @@ public class KakaoInfoDto {
     private String email;
     private String nickname;  // 추가된 필드
     private String profileImage;  // 추가된 필드
+    
 
     public KakaoInfoDto(Map<String, Object> attributes) {
         this.id = Long.valueOf(attributes.get("id").toString());
