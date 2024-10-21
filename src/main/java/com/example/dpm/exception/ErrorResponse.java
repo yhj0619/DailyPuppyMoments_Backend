@@ -1,4 +1,4 @@
-package com.example.dpm.auth.exception;
+package com.example.dpm.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

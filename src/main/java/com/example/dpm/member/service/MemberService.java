@@ -1,14 +1,14 @@
-package com.example.dpm.service;
+package com.example.dpm.member.service;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
-import com.example.dpm.dto.MemberDto;
-import com.example.dpm.model.MemberEntity;
-import com.example.dpm.repository.MemberRepository;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
+import com.example.dpm.member.dto.MemberDto;
+import com.example.dpm.member.model.MemberEntity;
+import com.example.dpm.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

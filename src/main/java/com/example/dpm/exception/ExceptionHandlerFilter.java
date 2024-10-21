@@ -1,4 +1,4 @@
-package com.example.dpm.auth.exception;
+package com.example.dpm.exception;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -3,9 +3,9 @@ package com.example.dpm.auth.utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
 import com.example.dpm.auth.models.UserPrincipal;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
 
 public class SecurityUtil {
     private SecurityUtil() {}

@@ -1,4 +1,4 @@
-package com.example.dpm.auth.exception;
+package com.example.dpm.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.example.dpm.auth.exception;
+package com.example.dpm.exception;
 
 import org.springframework.http.HttpStatus;
 

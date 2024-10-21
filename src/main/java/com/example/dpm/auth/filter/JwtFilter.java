@@ -12,12 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.example.dpm.auth.exception.CustomException;
-import com.example.dpm.auth.exception.ErrorCode;
 import com.example.dpm.auth.models.UserPrincipal;
 import com.example.dpm.auth.service.JwtTokenService;
-import com.example.dpm.dto.MemberDto;
-import com.example.dpm.service.MemberService;
+import com.example.dpm.exception.CustomException;
+import com.example.dpm.exception.ErrorCode;
+import com.example.dpm.member.dto.MemberDto;
+import com.example.dpm.member.service.MemberService;
 
 import java.io.IOException;
 
