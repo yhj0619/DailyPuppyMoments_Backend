@@ -31,7 +31,7 @@ public class KakaoOauthService {
  // 카카오API에서 가져온 유저정보를 DB에 저장
     public MemberDto getUserProfileByToken(String accessToken) {
         Map<String, Object> userAttributesByToken = getUserAttributesByToken(accessToken);
-        System.out.println("1. accessToken: " + accessToken);
+        System.out.println("#KakaoOauthService 1. accessToken: " + accessToken);
         
         KakaoInfoDto kakaoInfoDto = new KakaoInfoDto(userAttributesByToken);
         
@@ -43,17 +43,22 @@ public class KakaoOauthService {
                 .profile_image(kakaoInfoDto.getProfileImage())  // 수정된 부분
                 .build();
         
-        System.out.println("2. memberDto: " + memberDto);
-        
-        if (memberService.findById(memberDto.getMember_id()) != null) {
-            MemberEntity memberEntity = memberService.toEntity(memberDto);
-            memberService.update(memberEntity);
-            System.out.println("3.UPDATE : memberService.update done");
-        } else {
-            MemberEntity memberEntity = memberService.toEntity(memberDto);
-            memberService.save(memberEntity);
-            System.out.println("3.SAVE : memberService.save done");
-        }
+        System.out.println("#KakaoOauthService 2. memberDto: " + memberDto);
+        MemberEntity memberEntity = memberService.toEntity(memberDto);
+        System.out.println("#KakaoOauthService 444444");
+        memberService.save(memberEntity);
+        System.out.println("#KakaoOauthService 3.SAVE : memberService.save done");
+//        if (memberService.findById(memberDto.getMember_id()) != null) {
+//            MemberEntity memberEntity = memberService.toEntity(memberDto);
+//            memberService.update(memberEntity);
+//            System.out.println("3.UPDATE : memberService.update done");
+//        } else {
+//        	System.out.println("444444");
+//            MemberEntity memberEntity = memberService.toEntity(memberDto);
+//            System.out.println("444444");
+//            memberService.save(memberEntity);
+//            System.out.println("3.SAVE : memberService.save done");
+//        }
         
         return memberDto;
     }

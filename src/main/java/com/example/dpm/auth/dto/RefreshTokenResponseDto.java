@@ -1,5 +1,7 @@
 package com.example.dpm.auth.dto;
 
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class RefreshTokenResponseDto {
     private String accessToken;
+    private String refreshToken;
 }

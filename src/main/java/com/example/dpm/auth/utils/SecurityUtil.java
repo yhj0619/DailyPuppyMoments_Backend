@@ -19,6 +19,7 @@ public class SecurityUtil {
         }
 
         Long userId;
+        System.out.println("#SecurityUtil_userId: ");
         if (authentication.getPrincipal() instanceof UserPrincipal userPrincipal) {
             userId = userPrincipal.getId();
         } else {
