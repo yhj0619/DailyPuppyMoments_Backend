@@ -65,16 +65,23 @@ public class OauthService {
 
         return tokenResponse;  // 새로운 Access Token과 Refresh Token을 포함한 응답
     }	
+    
+    public Map<String, Object> logout(String accessToken) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://kapi.kakao.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)  // Access Token을 Authorization 헤더에 추가
+                .build();
 
-
-    //카카오 로그인
-//    public String loginWithKakao(String accessToken,String refreshToken, HttpServletResponse response) {
-//    	System.out.println("#OauthService: 또여기????");
-//        MemberDto memberDto = kakaoOauthService.getUserProfileByToken(accessToken,refreshToken);
-//        System.out.println("#OauthService: access token????" + accessToken);
-//        System.out.println("#OauthService: refreshToken????" + refreshToken);
-//        return accessToken;
-//    }
+        // 로그아웃 요청
+        Map<String, Object> logoutResponse = webClient.post()
+                .uri("/v1/user/logout")
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
+        System.out.println("&&&&&&&&&&&&&&OauthService_로그아웃 :" + logoutResponse );
+        return logoutResponse;  // 로그아웃 결과 응답
+    }
     
     public String loginWithKakao(String accessToken, String refreshToken, HttpServletResponse response) {
         System.out.println("#OauthService: 또여기????");
@@ -90,93 +97,10 @@ public class OauthService {
         
         System.out.println("~~~~~~~~~~~~~@@@@@OauthService_JWTToken: " + JWTToken);
         
-     // DB에 리프레시 토큰 저장 (선택 사항)
-        //memberService.updateRefreshToken(memberDto.getMember_id(), jwtRefreshToken);
-        
      // TokenResponseDto 생성
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
         tokenResponseDto.setAccessToken(accessToken);
         tokenResponseDto.setRefreshToken(refreshToken);
         return JWTToken;  // TokenResponseDto 객체 반환
-    }
-
-    
- // 카카오 로그인
-//    public Map<String, String> loginWithKakao(String authorizationCode, HttpServletResponse response) {
-//        // 1. Authorization Code로 Access Token 및 Refresh Token 가져오기
-//        Map<String, Object> tokenResponse = getKakaoToken(authorizationCode);
-//        System.out.println("#OauthService  authorizationCode: " + authorizationCode);
-//        
-//        
-//        String accessToken = (String) tokenResponse.get("access_token");
-//        String refreshToken = (String) tokenResponse.get("refresh_token");
-//
-//        System.out.println("#OauthService: accessToken: " + accessToken);
-//        System.out.println("#OauthService: refreshToken: " + refreshToken);
-//
-//        // 2. Access Token으로 유저 프로필 정보 가져오기
-//        MemberDto memberDto = kakaoOauthService.getUserProfileByToken(accessToken);
-//        System.out.println("#OauthService: User Profile: " + memberDto);
-//
-//        // 3. Access Token과 Refresh Token을 함께 반환
-//        Map<String, String> tokens = new HashMap<>();
-//        tokens.put("accessToken", accessToken);
-//        tokens.put("refreshToken", refreshToken);
-//        
-//        return tokens;
-//    }
-
-
- // 액세스토큰, 리프레시토큰 생성
-//    public String getTokens(Long id, HttpServletResponse response) {
-//        final String accessToken = jwtTokenService.createAccessToken(String.valueOf(id));
-//        final String refreshToken = jwtTokenService.createRefreshToken();
-//
-//        MemberDto memberDto = memberService.findById(id);
-//        memberDto.setRefreshToken(refreshToken);  // refresh_token을 memberDto에 설정
-//        memberService.updateRefreshToken(memberDto.getMember_id(), refreshToken);  // DB에 업데이트
-//
-//        jwtTokenService.addRefreshTokenToCookie(refreshToken, response);
-//        return accessToken;
-//    }
-//
-    // 리프레시 토큰으로 액세스토큰 새로 갱신
-//    public String refreshAccessToken(String jwtToken ,String accessToken,String refreshToken) {
-//        // 리프레시 토큰 출력
-//        System.out.println("##OauthService Received refresh token: " + refreshToken);
-//
-//        // MemberDto 가져오기
-//        MemberDto memberDto = memberService.getMemberDtoFromRefreshToken(refreshToken);
-//        if (memberDto == null) {
-//            System.out.println("##OauthService Invalid refresh token: Member not found.");
-//            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-//        }
-//
-//        // JWT 토큰 유효성 검사
-//        boolean isValidToken = jwtTokenService.validateToken(refreshToken);
-//        System.out.println("##########vOauthService: isValidToken" + isValidToken);
-//        if (!isValidToken) {
-//            System.out.println("##OauthService Invalid refresh token: Token is not valid.");
-//            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-//        }
-//
-//        // 액세스 토큰 생성
-//        String JWTtoken = jwtTokenService.createJWTToken(accessToken, refreshToken, String.valueOf(memberDto.getMember_id()));
-//
-//        // 만료된 경우 새 액세스토큰 생성
-//        String newAccessToken = jwtTokenService.createAccessToken(String.valueOf(memberDto.getMember_id()));
-//        System.out.println("##OauthService New access token created: " + newAccessToken);
-//        return newAccessToken;
-//    } else {
-//        // 액세스 토큰이 아직 유효한 경우
-//        System.out.println("##OauthService Access token is still valid.");
-//        throw new CustomException(ErrorCode.ACCESS_TOKEN_STILL_VALID);
-//    }
-//        
-//        
-//        System.out.println("##OauthService New access token created: " + newAccessToken);
-//
-//        return newAccessToken;
-//    }
-
+    }    
 }

@@ -8,12 +8,11 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public class KakaoInfoDto {
-    private Long id;
-    private String email;
-    private String nickname;  // 추가된 필드
-    private String profileImage;  // 추가된 필드
-    private String refreshToken;  // 추가된 필드 추가
-
+    private Long id; //카카오 사용자 고유 아이디
+    private String email; //카카오 사용자 이메일
+    private String nickname;  //카카오 사용자 이름
+    private String profileImage;  //카카오 사용자 프로필 사진
+    
     public KakaoInfoDto(Map<String, Object> attributes) {
         this.id = Long.valueOf(attributes.get("id").toString());
         this.email = attributes.get("kakao_account") != null 
@@ -23,10 +22,5 @@ public class KakaoInfoDto {
         this.nickname = ((Map<String, Object>) attributes.get("properties")).get("nickname").toString();
         this.profileImage = ((Map<String, Object>) attributes.get("properties")).get("profile_image").toString();
      
-        // refreshToken 초기화 (attributes에서 가져오는 방식으로 추가)
-        this.refreshToken = attributes.get("refresh_token") != null 
-            ? attributes.get("refresh_token").toString() 
-            : "";
-    
     }
 }

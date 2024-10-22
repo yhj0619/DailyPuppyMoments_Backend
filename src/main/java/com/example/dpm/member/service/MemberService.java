@@ -19,13 +19,17 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     
+    
     // MemberEntity를 DTO로 변환
     private MemberDto toDto(MemberEntity memberEntity) {
         return MemberDto.builder()
             .member_id(memberEntity.getMember_id())
             .socialId(memberEntity.getSocialId())
-            .profile_nickname(memberEntity.getNickname()) // 필드명 수정
+            .nickname(memberEntity.getNickname()) // 필드명 수정
             .profile_image(memberEntity.getProfile_image())
+            .point(memberEntity.getPoint())
+            .attendance(memberEntity.isAttendance())
+            .is_deleted(memberEntity.is_deleted())
             .refreshToken(memberEntity.getRefreshToken())
             .build();
     }
@@ -35,8 +39,11 @@ public class MemberService {
         return MemberEntity.builder()
             .member_id(memberDto.getMember_id())
             .socialId(memberDto.getSocialId())
-            .nickname(memberDto.getProfile_nickname()) // 필드명 수정
+            .nickname(memberDto.getNickname()) 
             .profile_image(memberDto.getProfile_image())
+            .point(memberDto.getPoint())
+            .attendance(memberDto.isAttendance())
+            .is_deleted(memberDto.is_deleted())
             .refreshToken(memberDto.getRefreshToken())
             .build();
     }
@@ -53,15 +60,15 @@ public class MemberService {
 
  // Optional<MemberEntity>를 MemberDto로 변환하는 메서드
     public MemberDto getMemberDtoFromRefreshToken(String refreshToken) {
-        System.out.println("#MemberRepository Received refresh token: " + refreshToken); // 리프레시 토큰을 출력
+        System.out.println("#MemberService Received refresh token: " + refreshToken); // 리프레시 토큰을 출력
 
         return memberRepository.findByRefreshToken(refreshToken)
             .map(memberEntity -> {
-                System.out.println("#MemberRepository Found member entity for refresh token: " + memberEntity); // 멤버 엔티티가 발견된 경우 출력
+                System.out.println("#MemberService Found member entity for refresh token: " + memberEntity); // 멤버 엔티티가 발견된 경우 출력
                 return toDto(memberEntity);
             })
             .orElseThrow(() -> {
-                System.out.println("#MemberRepository No member found for refresh token: " + refreshToken); // 멤버가 발견되지 않은 경우 출력
+                System.out.println("#MemberService No member found for refresh token: " + refreshToken); // 멤버가 발견되지 않은 경우 출력
                 return new CustomException(ErrorCode.BAD_REQUEST);
             });
     }
