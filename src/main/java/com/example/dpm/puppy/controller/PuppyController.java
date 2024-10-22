@@ -1,4 +1,4 @@
-package com.example.dpm.post.controller;
+package com.example.dpm.puppy.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

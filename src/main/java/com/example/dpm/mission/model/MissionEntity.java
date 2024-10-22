@@ -1,4 +1,4 @@
-package com.example.dpm.post.model;
+package com.example.dpm.mission.model;
 
 import java.time.LocalDate;
 
@@ -10,26 +10,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "puppy")
-public class PuppyEntity {
+@Table(name = "mission")
+public class MissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int puppyId;
+    private int missionId;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private MemberEntity member; // Reference to Member entity
 
+    private boolean status; // Whether the mission is completed today
+
     @Column(nullable = false)
-    private String name; // Puppy name
-
-    private LocalDate birth; // Birthdate
-
-    private double weight; // Weight
+    private LocalDate missionDate; // Mission date
 }

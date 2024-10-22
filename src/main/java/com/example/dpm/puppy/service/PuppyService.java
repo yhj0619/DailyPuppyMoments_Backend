@@ -1,10 +1,10 @@
-package com.example.dpm.post.service;
+package com.example.dpm.puppy.service;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dpm.member.model.MemberEntity;
-import com.example.dpm.post.dto.PuppyDto;
-import com.example.dpm.post.model.PuppyEntity;
+import com.example.dpm.puppy.dto.PuppyDto;
+import com.example.dpm.puppy.model.PuppyEntity;
 
 @Service
 public class PuppyService {

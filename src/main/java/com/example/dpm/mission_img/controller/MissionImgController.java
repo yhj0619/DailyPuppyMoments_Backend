@@ -1,4 +1,4 @@
-package com.example.dpm.post.controller;
+package com.example.dpm.mission_img.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class MissionController {
+public class MissionImgController {
 
 }

@@ -1,10 +1,10 @@
-package com.example.dpm.post.service;
+package com.example.dpm.todo.service;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dpm.member.model.MemberEntity;
-import com.example.dpm.post.dto.TodoDto;
-import com.example.dpm.post.model.TodoEntity;
+import com.example.dpm.todo.dto.TodoDto;
+import com.example.dpm.todo.model.TodoEntity;
 
 @Service
 public class TodoService {

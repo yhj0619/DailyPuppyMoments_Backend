@@ -1,10 +1,10 @@
-package com.example.dpm.post.service;
+package com.example.dpm.mission_img.service;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dpm.member.model.MemberEntity;
-import com.example.dpm.post.dto.MissionDto;
-import com.example.dpm.post.model.MissionEntity;
+import com.example.dpm.mission.dto.MissionDto;
+import com.example.dpm.mission.model.MissionEntity;
 
 @Service
 public class MissionImgService {

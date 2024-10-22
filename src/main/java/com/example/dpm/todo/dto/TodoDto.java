@@ -1,4 +1,4 @@
-package com.example.dpm.post.dto;
+package com.example.dpm.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MissionDto {
-    private int missionId;
+public class TodoDto {
+    private int todoId;
     private Long memberId; // Member reference by memberId
+    private String content;
+    private LocalDate dueData;
     private boolean status;
-    private LocalDate missionDate;
 }

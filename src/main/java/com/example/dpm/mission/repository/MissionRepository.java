@@ -1,8 +1,8 @@
-package com.example.dpm.post.repository;
+package com.example.dpm.mission.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.dpm.post.model.MissionEntity;
+import com.example.dpm.mission.model.MissionEntity;
 
 public interface MissionRepository extends JpaRepository<MissionEntity, Integer>{
 

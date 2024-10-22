@@ -1,4 +1,4 @@
-package com.example.dpm.post.dto;
+package com.example.dpm.mission_img.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
