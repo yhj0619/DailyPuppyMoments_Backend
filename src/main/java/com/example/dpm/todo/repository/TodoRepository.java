@@ -1,8 +1,8 @@
-package com.example.dpm.post.repository;
+package com.example.dpm.todo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.dpm.post.model.TodoEntity;
+import com.example.dpm.todo.model.TodoEntity;
 
 public interface TodoRepository extends JpaRepository<TodoEntity, Integer>{
 

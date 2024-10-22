@@ -1,36 +1,35 @@
-package com.example.dpm.post.model;
+package com.example.dpm.puppy.model;
 
 import java.time.LocalDate;
 
 import com.example.dpm.member.model.MemberEntity;
+
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "todo")
-public class TodoEntity {
-	@Id
+@Table(name = "puppy")
+public class PuppyEntity {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int todoId;
+    private int puppyId;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private MemberEntity member; // Reference to Member entity
 
     @Column(nullable = false)
-    private String content; // Task content
+    private String name; // Puppy name
 
-    @Column(nullable = false)
-    private LocalDate dueData; // Due date
+    private LocalDate birth; // Birthdate
 
-    private boolean status; // Task status
+    private double weight; // Weight
 }
