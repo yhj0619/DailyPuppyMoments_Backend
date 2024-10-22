@@ -9,7 +9,7 @@ public class OauthResponseDto {
     private String accessToken;
     private String refreshToken;
     
-    private String code;
+    //private String code;
     
     
 }

@@ -49,8 +49,8 @@ public class JwtTokenService implements InitializingBean {
             @Value("${jwt.refresh.token.expiration.seconds}") long refreshTokenExpirationInSeconds,
             @Value("${jwt.token.secret-key}") String secretKey
     ) {
-        this.accessTokenExpirationInSeconds = accessTokenExpirationInSeconds;
-        this.refreshTokenExpirationInSeconds = refreshTokenExpirationInSeconds;
+        this.accessTokenExpirationInSeconds = accessTokenExpirationInSeconds * 1000;
+        this.refreshTokenExpirationInSeconds = refreshTokenExpirationInSeconds * 1000;
         this.secretKey = secretKey;
     }
 
@@ -82,7 +82,7 @@ public class JwtTokenService implements InitializingBean {
         Map<String, Object> claims = new HashMap<>();
         claims.put("member_id", memberDto.getMember_id());
         claims.put("socialId", memberDto.getSocialId());
-        claims.put("nickname", memberDto.getProfile_nickname());
+        claims.put("nickname", memberDto.getNickname());
         claims.put("profile_image", memberDto.getProfile_image());  // 필요한 경우 카카오 토큰도 포함
         claims.put("accessToken", accessToken);  // 필요한 경우 카카오 토큰도 포함
         claims.put("refreshToken", refreshToken);  // 필요한 경우 카카오 토큰도 포함
@@ -146,8 +146,8 @@ public class JwtTokenService implements InitializingBean {
         return key;
     }
 
-	public String createAccessToken(String valueOf) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public String createAccessToken(String valueOf) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
