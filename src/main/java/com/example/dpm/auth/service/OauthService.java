@@ -74,18 +74,28 @@ public class OauthService {
 //        return accessToken;
 //    }
     
-    public TokenResponseDto loginWithKakao(String accessToken, String refreshToken, HttpServletResponse response) {
+    public String loginWithKakao(String accessToken, String refreshToken, HttpServletResponse response) {
         System.out.println("#OauthService: 또여기????");
         MemberDto memberDto = kakaoOauthService.getUserProfileByToken(accessToken, refreshToken);
         System.out.println("#OauthService: access token????" + accessToken);
         System.out.println("#OauthService: refreshToken????" + refreshToken);
 
+        if (memberDto == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
+        }
+        // 자체적인 JWT 토큰 생성
+        String JWTToken = jwtTokenService.createAccessToken(accessToken,refreshToken,String.valueOf(memberDto.getMember_id()));
+        
+        System.out.println("~~~~~~~~~~~~~@@@@@OauthService_JWTToken: " + JWTToken);
+        
+     // DB에 리프레시 토큰 저장 (선택 사항)
+        //memberService.updateRefreshToken(memberDto.getMember_id(), jwtRefreshToken);
+        
      // TokenResponseDto 생성
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
         tokenResponseDto.setAccessToken(accessToken);
         tokenResponseDto.setRefreshToken(refreshToken);
-
-        return tokenResponseDto;  // TokenResponseDto 객체 반환
+        return JWTToken;  // TokenResponseDto 객체 반환
     }
 
     
@@ -116,29 +126,42 @@ public class OauthService {
 
 
  // 액세스토큰, 리프레시토큰 생성
-    public String getTokens(Long id, HttpServletResponse response) {
-        final String accessToken = jwtTokenService.createAccessToken(String.valueOf(id));
-        final String refreshToken = jwtTokenService.createRefreshToken();
-
-        MemberDto memberDto = memberService.findById(id);
-        memberDto.setRefreshToken(refreshToken);  // refresh_token을 memberDto에 설정
-        memberService.updateRefreshToken(memberDto.getMember_id(), refreshToken);  // DB에 업데이트
-
-        jwtTokenService.addRefreshTokenToCookie(refreshToken, response);
-        return accessToken;
-    }
-
+//    public String getTokens(Long id, HttpServletResponse response) {
+//        final String accessToken = jwtTokenService.createAccessToken(String.valueOf(id));
+//        final String refreshToken = jwtTokenService.createRefreshToken();
+//
+//        MemberDto memberDto = memberService.findById(id);
+//        memberDto.setRefreshToken(refreshToken);  // refresh_token을 memberDto에 설정
+//        memberService.updateRefreshToken(memberDto.getMember_id(), refreshToken);  // DB에 업데이트
+//
+//        jwtTokenService.addRefreshTokenToCookie(refreshToken, response);
+//        return accessToken;
+//    }
+//
     // 리프레시 토큰으로 액세스토큰 새로 갱신
-    public String refreshAccessToken(String refreshToken) {
+    public String refreshAccessToken(String accessToken,String refreshToken) {
+        // 리프레시 토큰 출력
+        System.out.println("##OauthService Received refresh token: " + refreshToken);
+
+        // MemberDto 가져오기
         MemberDto memberDto = memberService.getMemberDtoFromRefreshToken(refreshToken);
-        if(memberDto == null) {
+        if (memberDto == null) {
+            System.out.println("##OauthService Invalid refresh token: Member not found.");
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        if(!jwtTokenService.validateToken(refreshToken)) {
+        // JWT 토큰 유효성 검사
+        boolean isValidToken = jwtTokenService.validateToken(refreshToken);
+        if (!isValidToken) {
+            System.out.println("##OauthService Invalid refresh token: Token is not valid.");
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        return jwtTokenService.createAccessToken(String.valueOf(memberDto.getMember_id()));
+        // 액세스 토큰 생성
+        String newAccessToken = jwtTokenService.createAccessToken(accessToken, refreshToken, String.valueOf(memberDto.getMember_id()));
+        System.out.println("##OauthService New access token created: " + newAccessToken);
+
+        return newAccessToken;
     }
+
 }

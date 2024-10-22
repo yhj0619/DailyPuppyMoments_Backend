@@ -51,12 +51,21 @@ public class MemberService {
             });
     }
 
-    // Optional<MemberEntity>를 MemberDto로 변환하는 메서드
+ // Optional<MemberEntity>를 MemberDto로 변환하는 메서드
     public MemberDto getMemberDtoFromRefreshToken(String refreshToken) {
+        System.out.println("#MemberRepository Received refresh token: " + refreshToken); // 리프레시 토큰을 출력
+
         return memberRepository.findByRefreshToken(refreshToken)
-            .map(this::toDto)
-            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+            .map(memberEntity -> {
+                System.out.println("#MemberRepository Found member entity for refresh token: " + memberEntity); // 멤버 엔티티가 발견된 경우 출력
+                return toDto(memberEntity);
+            })
+            .orElseThrow(() -> {
+                System.out.println("#MemberRepository No member found for refresh token: " + refreshToken); // 멤버가 발견되지 않은 경우 출력
+                return new CustomException(ErrorCode.BAD_REQUEST);
+            });
     }
+
 
     @Transactional
     public MemberEntity save(MemberEntity memberEntity) {
