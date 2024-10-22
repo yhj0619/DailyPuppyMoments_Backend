@@ -4,10 +4,12 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class RefreshTokenResponseDto {
+@ToString
+public class TokenResponseDto {
     private String accessToken;
     private String refreshToken;
 }
