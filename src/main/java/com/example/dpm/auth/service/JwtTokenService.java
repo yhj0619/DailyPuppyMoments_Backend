@@ -49,8 +49,8 @@ public class JwtTokenService implements InitializingBean {
             @Value("${jwt.refresh.token.expiration.seconds}") long refreshTokenExpirationInSeconds,
             @Value("${jwt.token.secret-key}") String secretKey
     ) {
-        this.accessTokenExpirationInSeconds = accessTokenExpirationInSeconds * 1000;
-        this.refreshTokenExpirationInSeconds = refreshTokenExpirationInSeconds * 1000;
+        this.accessTokenExpirationInSeconds = accessTokenExpirationInSeconds;
+        this.refreshTokenExpirationInSeconds = refreshTokenExpirationInSeconds;
         this.secretKey = secretKey;
     }
 
@@ -62,7 +62,7 @@ public class JwtTokenService implements InitializingBean {
     }
 
 
-    public String createAccessToken(String accessToken, String refreshToken,String payload){
+    public String createJWTToken(String accessToken, String refreshToken,String payload){
         return createToken(accessToken, refreshToken,payload, accessTokenExpirationInSeconds);
     }
 
@@ -113,12 +113,12 @@ public class JwtTokenService implements InitializingBean {
         }
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String jwt) {
         try {
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseClaimsJws(jwt);
             
             // 토큰의 만료 여부 확인
             boolean isValid = !claimsJws.getBody().getExpiration().before(new Date());
@@ -145,4 +145,9 @@ public class JwtTokenService implements InitializingBean {
 
         return key;
     }
+
+	public String createAccessToken(String valueOf) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
