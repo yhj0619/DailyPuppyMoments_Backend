@@ -1,11 +1,14 @@
 package com.example.dpm.member.model;
 
 import io.micrometer.common.lang.Nullable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,12 +31,6 @@ public class MemberEntity {
     private String nickname;
     
     private String profile_image;
-//    
-//    private int point;
-//    
-//    private boolean attendance;
-//    
-//    private boolean is_deleted;
 
     @Nullable
     @Column(name = "refresh_token")

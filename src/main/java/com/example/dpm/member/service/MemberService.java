@@ -8,6 +8,7 @@ import com.example.dpm.member.dto.MemberDto;
 import com.example.dpm.member.model.MemberEntity;
 import com.example.dpm.member.repository.MemberRepository;
 
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -82,4 +83,20 @@ public class MemberService {
         memberEntity.setRefreshToken(refreshToken); 
         memberRepository.save(memberEntity); // 변경된 엔티티 저장
     }
+    
+    public void saveTokens(Long member_id, String accessToken, String refreshToken) {
+        Optional<MemberEntity> memberOptional = memberRepository.findById(member_id);
+
+        MemberEntity memberEntity;
+        if (memberOptional.isPresent()) {
+            memberEntity = memberOptional.get();
+        } else {
+            memberEntity = MemberEntity.builder()
+                .member_id(member_id)
+                .build();
+        }
+
+        
+    }
+
 }

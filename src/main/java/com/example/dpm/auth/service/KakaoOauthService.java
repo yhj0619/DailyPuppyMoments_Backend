@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.dpm.auth.dto.KakaoInfoDto;
+import com.example.dpm.auth.dto.OauthResponseDto;
 import com.example.dpm.member.dto.MemberDto;
 import com.example.dpm.member.model.MemberEntity;
 import com.example.dpm.member.service.MemberService;
@@ -29,11 +30,12 @@ public class KakaoOauthService {
     }
 
  // 카카오API에서 가져온 유저정보를 DB에 저장
-    public MemberDto getUserProfileByToken(String accessToken) {
+    public MemberDto getUserProfileByToken(String accessToken, String refreshToken) {
         Map<String, Object> userAttributesByToken = getUserAttributesByToken(accessToken);
         System.out.println("#KakaoOauthService 1. accessToken: " + accessToken);
         
         KakaoInfoDto kakaoInfoDto = new KakaoInfoDto(userAttributesByToken);
+        
         
         // MemberDto에 추가된 nickname과 profileImage 정보도 포함
         MemberDto memberDto = MemberDto.builder()
@@ -41,6 +43,7 @@ public class KakaoOauthService {
                 .socialId(kakaoInfoDto.getEmail())
                 .profile_nickname(kakaoInfoDto.getNickname())  // 수정된 부분
                 .profile_image(kakaoInfoDto.getProfileImage())  // 수정된 부분
+                .refreshToken(refreshToken)
                 .build();
         
         System.out.println("#KakaoOauthService 2. memberDto: " + memberDto);
