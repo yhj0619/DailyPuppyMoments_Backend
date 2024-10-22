@@ -19,6 +19,9 @@ import com.example.dpm.exception.ErrorCode;
 import com.example.dpm.member.dto.MemberDto;
 import com.example.dpm.member.service.MemberService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
 @RequiredArgsConstructor
 @Service
 public class OauthService {
@@ -36,7 +39,7 @@ public class OauthService {
         return webClient.post()
                 .uri("/oauth/token")
                 .body(BodyInserters.fromFormData("grant_type", "authorization_code")
-                        .with("client_id", "d8fabac493f22b719a1bc4f29b44c9d1")
+                        .with("client_id", "72ca8d5c3abeee717446fc97a3749656")
                         .with("redirect_uri", "http://localhost:8080/login/oauth/kakao")
                         .with("code", code))
                 .retrieve()
@@ -44,24 +47,23 @@ public class OauthService {
                 .block();
     }
     
-    public Map<String, Object> getKakaoCode(String code) {
+    public Map<String, Object> refreshAccessToken(String refreshToken) {
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:8080")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // JSON 형식으로 설정
+                .baseUrl("https://kauth.kakao.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .build();
 
-        // JSON 형식으로 body 설정
-        String jsonBody = String.format("{\"code\":\"%s\"}", code);
-        
-        System.out.println("???OauthService: " + jsonBody);
-        System.out.println("???OauthService: " + webClient);
-
-        return webClient.post()
-                .uri("/login/oauth/kakao")
-                .bodyValue(jsonBody)  // raw JSON 형식으로 body 전송
+        // Refresh Token을 이용한 Access Token 갱신 요청
+        Map<String, Object> tokenResponse = webClient.post()
+        		.uri("/oauth/token")
+                .body(BodyInserters.fromFormData("grant_type", "refresh_token")
+                        .with("client_id", "72ca8d5c3abeee717446fc97a3749656")
+                        .with("refresh_token", refreshToken))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
+
+        return tokenResponse;  // 새로운 Access Token과 Refresh Token을 포함한 응답
     }	
 
 
@@ -84,7 +86,7 @@ public class OauthService {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
         // 자체적인 JWT 토큰 생성
-        String JWTToken = jwtTokenService.createAccessToken(accessToken,refreshToken,String.valueOf(memberDto.getMember_id()));
+        String JWTToken = jwtTokenService.createJWTToken(accessToken,refreshToken,String.valueOf(memberDto.getMember_id()));
         
         System.out.println("~~~~~~~~~~~~~@@@@@OauthService_JWTToken: " + JWTToken);
         
@@ -139,29 +141,42 @@ public class OauthService {
 //    }
 //
     // 리프레시 토큰으로 액세스토큰 새로 갱신
-    public String refreshAccessToken(String accessToken,String refreshToken) {
-        // 리프레시 토큰 출력
-        System.out.println("##OauthService Received refresh token: " + refreshToken);
-
-        // MemberDto 가져오기
-        MemberDto memberDto = memberService.getMemberDtoFromRefreshToken(refreshToken);
-        if (memberDto == null) {
-            System.out.println("##OauthService Invalid refresh token: Member not found.");
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        // JWT 토큰 유효성 검사
-        boolean isValidToken = jwtTokenService.validateToken(refreshToken);
-        if (!isValidToken) {
-            System.out.println("##OauthService Invalid refresh token: Token is not valid.");
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        // 액세스 토큰 생성
-        String newAccessToken = jwtTokenService.createAccessToken(accessToken, refreshToken, String.valueOf(memberDto.getMember_id()));
-        System.out.println("##OauthService New access token created: " + newAccessToken);
-
-        return newAccessToken;
-    }
+//    public String refreshAccessToken(String jwtToken ,String accessToken,String refreshToken) {
+//        // 리프레시 토큰 출력
+//        System.out.println("##OauthService Received refresh token: " + refreshToken);
+//
+//        // MemberDto 가져오기
+//        MemberDto memberDto = memberService.getMemberDtoFromRefreshToken(refreshToken);
+//        if (memberDto == null) {
+//            System.out.println("##OauthService Invalid refresh token: Member not found.");
+//            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+//        }
+//
+//        // JWT 토큰 유효성 검사
+//        boolean isValidToken = jwtTokenService.validateToken(refreshToken);
+//        System.out.println("##########vOauthService: isValidToken" + isValidToken);
+//        if (!isValidToken) {
+//            System.out.println("##OauthService Invalid refresh token: Token is not valid.");
+//            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+//        }
+//
+//        // 액세스 토큰 생성
+//        String JWTtoken = jwtTokenService.createJWTToken(accessToken, refreshToken, String.valueOf(memberDto.getMember_id()));
+//
+//        // 만료된 경우 새 액세스토큰 생성
+//        String newAccessToken = jwtTokenService.createAccessToken(String.valueOf(memberDto.getMember_id()));
+//        System.out.println("##OauthService New access token created: " + newAccessToken);
+//        return newAccessToken;
+//    } else {
+//        // 액세스 토큰이 아직 유효한 경우
+//        System.out.println("##OauthService Access token is still valid.");
+//        throw new CustomException(ErrorCode.ACCESS_TOKEN_STILL_VALID);
+//    }
+//        
+//        
+//        System.out.println("##OauthService New access token created: " + newAccessToken);
+//
+//        return newAccessToken;
+//    }
 
 }

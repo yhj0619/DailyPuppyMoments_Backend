@@ -80,11 +80,29 @@ public class OauthController {
                 System.out.println("#OauthController: AccessToken: " + oauthRequestDto.getAccessToken());
                 throw new IllegalArgumentException("#OauthController: Unsupported provider: " + provider);
         }
-
+        
+        
         return jwtToken;
     }
-
-
+    
+//    @RequestMapping("https://kauth.kakao.com/oauth/token")
+//    public OauthResponseDto Renew(@RequestParam("refresh_token") String refresh_token,  HttpServletResponse response) {
+//        OauthResponseDto oauthResponseDto = new OauthResponseDto();
+//
+//        Map<String, Object> tokenResponse = oauthService.refreshAccessToken(refresh_token);
+//        
+//        String new_accessToken = (String) tokenResponse.get("access_token");
+//        String new_refreshToken = (String) tokenResponse.get("refresh_token");
+//        
+//        System.out.println("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ #OauthController:"+ new_accessToken);
+//
+//        // 응답 객체에 Access Token, Refresh Token 저장
+//        oauthResponseDto.setAccessToken(new_accessToken);
+//        oauthResponseDto.setRefreshToken(new_refreshToken);
+//
+//        return oauthResponseDto;
+//    }
+    
 
 //    @PostMapping("/login/oauth/{provider}")
 //    public OauthResponseDto login(@PathVariable("provider") String provider, @RequestBody OauthRequestDto oauthRequestDto,
