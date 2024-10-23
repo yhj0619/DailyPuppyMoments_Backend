@@ -23,6 +23,9 @@ configurations {
 repositories {
 	mavenCentral()
 }
+compileJava {    
+	options.compilerArgs << '-parameters'
+}
 
 eclipse.wtp.facet {
     // Change the version of the Dynamic Web Module facet
