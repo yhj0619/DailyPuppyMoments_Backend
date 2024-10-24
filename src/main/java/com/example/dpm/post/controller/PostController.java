@@ -2,6 +2,7 @@ package com.example.dpm.post.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,6 +58,13 @@ public class PostController {
 		// 204 No Content 반환 (수정 성공)
 		return ResponseEntity.noContent().build();
 	}
+	
+	// 게시글 좋아요 기능
+	 @PostMapping("/{postId}/like")
+	    public ResponseEntity<String> toggleLike(@PathVariable("postId") Integer postId) {
+	        postService.toggleLike(postId);
+	        return new ResponseEntity<>("Like status updated.", HttpStatus.OK);
+	    }
 
 	// 전체 게시글 조회 for test
 //	@GetMapping("/list")
@@ -112,12 +120,15 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
     
-	// 특정 회원의 게시글 조회 - 확인불가.
-//    @GetMapping("/list/mypost/{memberId}") // URL 경로에서 memberId를 받음
-//    public ResponseEntity<List<PostDto>> getAllMyPosts(@PathVariable("memberId") Long memberId) {
-//        List<PostDto> myPosts = postService.getAllMyPosts(memberId); // 특정 회원의 게시글 조회
-//        return ResponseEntity.ok(myPosts); // 게시글 리스트 반환
-//    }
+	// 특정 회원의 게시글 조회
+    @GetMapping("/list/mypost/{memberId}") // URL 경로에서 memberId를 받음
+    public ResponseEntity<PageResponseDto<PostDto>> getAllMyPosts(
+    		@PathVariable("memberId") Long memberId,
+    		@ModelAttribute PageRequestDto pageRequestDto) {
+    	PageResponseDto<PostDto> myPosts = postService.getAllMyPosts(memberId, pageRequestDto); // 특정 회원의 게시글 조회
+    	System.out.println("#####[PostController] myposts: " + myPosts.getDtoList());
+        return ResponseEntity.ok(myPosts); // 게시글 리스트 반환
+    }
 
 	// 게시글 삭제
 	@DeleteMapping("/{postId}") // URL 경로에서 postId를 받음
