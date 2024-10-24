@@ -15,8 +15,10 @@ import com.example.dpm.post.model.PostEntity;
 public interface PostRepository extends JpaRepository<PostEntity, Integer>, PostRepositoryCustom{
 
 	List<PostEntity> findPostsWithPagination(int offset, int size);
-	//List<PostEntity> findByMember_MemberId(Long memberId); 
-	
+
+    @Query("SELECT p FROM PostEntity p WHERE p.member.member_id = :member_id ORDER BY p.postDate DESC")
+    Page<PostEntity> findByMember_MemberId(@Param("member_id") Long member_id, Pageable pageable);
+    
 	 // 제목 검색 및 날짜 순 정렬, 페이지네이션 처리
     @Query("SELECT p FROM PostEntity p WHERE p.title LIKE %:keyword% ORDER BY p.postDate ASC")
     Page<PostEntity> searchByTitle(@Param("keyword")String keyword, Pageable pageable);

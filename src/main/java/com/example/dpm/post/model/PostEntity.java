@@ -44,8 +44,10 @@ public class PostEntity {
 	@Column(nullable = false)
 	private String emoji;
 
+	@Column(nullable = false)
 	private Integer totalLikeHeart = 0; // 총 좋아요 수
 
+	@Column(nullable = false)
 	private boolean myLikeHeart = false; // 내가 좋아요를 눌렀는지 여부
 
 	// 다대다 관계 설정
@@ -59,6 +61,18 @@ public class PostEntity {
 	// 댓글과의 일대다 관계 설정
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<CommentEntity> comments;
+    
+    
+    // 좋아요 상태 토글 메서드
+    public void toggleLikeHeart() {
+        if (this.myLikeHeart) {
+            this.myLikeHeart = false;
+            this.totalLikeHeart = Math.max(0, this.totalLikeHeart - 1); // 0 이하로 내려가지 않도록 처리
+        } else {
+            this.myLikeHeart = true;
+            this.totalLikeHeart += 1;
+        }
+    }
 	
 	@PrePersist // 엔티티가 생성될 때 호출
 	public void prePersist() {

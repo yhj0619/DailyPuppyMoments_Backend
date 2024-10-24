@@ -43,6 +43,16 @@ public class PostServiceImpl implements PostService {
 		PostEntity post = result.orElseThrow();
 		return toDto(post);
 	}
+	
+	@Override
+    public void toggleLike(Integer postId) {
+		Optional<PostEntity> result = postRepository.findById(postId);
+		PostEntity post = result.orElseThrow();
+
+		post.toggleLikeHeart();
+		
+        postRepository.save(post);
+    }
 
 	@Override
 	public Integer create(PostDto dto) {
@@ -228,17 +238,24 @@ public class PostServiceImpl implements PostService {
 	            .build();
 	}
 
-
-	
-
-
-//	@Override
-//	public List<PostDto> getAllMyPosts(Long memberId) {
-//		List<PostEntity> posts = postRepository.findByMember_MemberId(memberId); // 해당 회원의 게시글 목록 조회
-//        return posts.stream()
-//                .map(this::toDto) // PostEntity를 PostDto로 변환
-//                .collect(Collectors.toList()); // 리스트로 변환
-//	}
+	@Override
+	public PageResponseDto<PostDto> getAllMyPosts(Long memberId, PageRequestDto pageRequestDto) {
+		// 페이지네이션을 위한 계산
+	    int page = pageRequestDto.getPage() - 1; // JPA는 페이지 번호가 0부터 시작
+	    int size = pageRequestDto.getSize();
+	    
+	    Page<PostEntity> postEntities = postRepository.findByMember_MemberId(memberId,PageRequest.of(page, size));
+	    System.out.println("#####[postService] postEntities done" + postEntities.toString());
+	    List<PostDto> postDtos = postEntities.getContent().stream()
+	    		.map(this::toDto)
+	    		.collect(Collectors.toList());
+	    System.out.println("#####[postService] postDtos done" + postDtos.toString());
+	    return PageResponseDto.<PostDto>withAll()
+	    		.dtoList(postDtos)
+	    		.pageRequestDto(pageRequestDto)
+	            .total(postEntities.getTotalElements())
+	            .build();
+	}
 
 	// PostDto -> PostEntity 변환
     public PostEntity toEntity(PostDto dto, MemberEntity member, List<TagEntity> tags, List<CommentEntity> comments) {
