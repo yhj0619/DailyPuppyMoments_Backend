@@ -37,7 +37,7 @@ public class SecurityConfig {
         return http.cors(withDefaults())
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login/**", "/token/refresh", "/post/**").permitAll()
+                        .requestMatchers("/login/**", "/token/refresh", "/post/**", "/mypage/**").permitAll()
                         .requestMatchers("/user/**").hasAuthority(MemberRole.USER.getRole())
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -53,6 +53,6 @@ public class SecurityConfig {
         // 아래 url은 filter 에서 제외
         return web ->
             web.ignoring()
-                    .requestMatchers("/login/**", "/token/refresh", "/post/**");
+                    .requestMatchers("/login/**", "/token/refresh", "/post/**", "/mypage/**");
     }
 }

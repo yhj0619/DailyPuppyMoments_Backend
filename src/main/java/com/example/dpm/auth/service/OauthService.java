@@ -66,6 +66,7 @@ public class OauthService {
         return tokenResponse;  // 새로운 Access Token과 Refresh Token을 포함한 응답
     }	
     
+    //로그아웃
     public Map<String, Object> logout(String accessToken) {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kapi.kakao.com")
@@ -82,6 +83,26 @@ public class OauthService {
         System.out.println("&&&&&&&&&&&&&&OauthService_로그아웃 :" + logoutResponse );
         return logoutResponse;  // 로그아웃 결과 응답
     }
+    
+    //사용자 연결 끊기(회원 탈퇴)
+    public Map<String, Object> unlink(String accessToken) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://kapi.kakao.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)  // Access Token을 Authorization 헤더에 추가
+                .build();
+
+        // 연결 끊기 요청
+        Map<String, Object> unlinkResponse = webClient.post()
+                .uri("/v1/user/unlink")  // 연결 끊기 API 엔드포인트
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
+
+        System.out.println("&&&&&&&&&&&&&&OauthService_연결 끊기 :" + unlinkResponse);
+        return unlinkResponse;  // 연결 끊기 결과 응답
+    }
+
     
     public String loginWithKakao(String accessToken, String refreshToken, HttpServletResponse response) {
         System.out.println("#OauthService: 또여기????");

@@ -38,9 +38,11 @@ public class PostEntity {
 	@Column(nullable = false)
 	private LocalDate postDate;
 
-	@Column(nullable = false)
-	private String img;
-
+//	@OneToOne(cascade = CascadeType.ALL, optional = false) // 이미지 필드를 반드시 요구
+    @OneToOne
+	@JoinColumn(name = "img_id", nullable = false) // 외래 키 설정
+    private ImgEntity img; // 이미지 엔티티
+	
 	@Column(nullable = false)
 	private String emoji;
 
