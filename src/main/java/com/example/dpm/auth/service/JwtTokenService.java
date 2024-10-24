@@ -146,6 +146,17 @@ public class JwtTokenService implements InitializingBean {
         return key;
     }
 
+//	public Long getMemberIdFromToken(String token) {
+//		// JWT 검증 및 Claims 가져오기
+//	    Claims claims = Jwts.parser()
+//	            .setSigningKey(secretKey) // 비밀 키
+//	            .parseClaimsJws(token)
+//	            .getBody();
+//
+//	    // 사용자 ID 추출
+//	    return claims.get("memberId", Long.class); // "memberId"는 JWT 페이로드에 포함된 사용자 ID 키
+//	}
+
 //	public String createAccessToken(String valueOf) {
 //		// TODO Auto-generated method stub
 //		return null;

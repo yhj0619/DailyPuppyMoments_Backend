@@ -1,6 +1,9 @@
 package com.example.dpm.post.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dpm.post.dto.PageRequestDto;
 import com.example.dpm.post.dto.PageResponseDto;
@@ -11,7 +14,7 @@ public interface PostService {
 	public PostDto get(Integer postId); // 게시물 조회
 
 	public Integer create(PostDto dto); // 게시물 생성
-
+	
 	public void modify(PostDto dto); // 게시물 수정
 
 	public void remove(Integer postId); // 게시물 삭제
@@ -33,4 +36,7 @@ public interface PostService {
 	PageResponseDto<PostDto> searchPostsByTag(String tagName, PageRequestDto pageRequestDto);
 
 	void toggleLike(Integer postId); // 좋아요 토글
+
+	//Integer create(PostDto dto, MultipartFile image);
+
 }

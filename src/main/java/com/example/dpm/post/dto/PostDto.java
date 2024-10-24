@@ -19,7 +19,7 @@ public class PostDto {
     private String title;
     private String content;
     private LocalDate postDate;
-    private String img;
+    private Integer imgId;
     // 태그 필드를 List<TagDto>로 설정
     private List<TagDto> tags;
     private List<CommentDto> comments;

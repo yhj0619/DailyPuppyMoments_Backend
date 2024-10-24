@@ -75,5 +75,6 @@ public class OauthController {
         
         return jwtToken;
     }
+    //로그아웃 https://kapi.kakao.com/v1/user/logout
    
 }

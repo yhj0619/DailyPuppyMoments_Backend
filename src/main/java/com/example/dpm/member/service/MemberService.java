@@ -48,17 +48,26 @@ public class MemberService {
             .build();
     }
 
-    // memberId로 찾은 후 DTO로 변환
-    public MemberDto findById(Long memberId) {
-        return memberRepository.findById(memberId)
-            .map(this::toDto)
-            .orElseThrow(() -> {
-                System.err.println("#MemberService: Member not found for memberId: " + memberId);
-                return new CustomException(ErrorCode.BAD_REQUEST);
-            });
-    }
+//    // memberId로 찾은 후 DTO로 변환
+//    public MemberDto findById(Long memberId) {
+//        return memberRepository.findById(memberId)
+//            .map(this::toDto)
+//            .orElseThrow(() -> {
+//                System.err.println("#MemberService: Member not found for memberId: " + memberId);
+//                return new CustomException(ErrorCode.BAD_REQUEST);
+//            });
+//    }
 
- // Optional<MemberEntity>를 MemberDto로 변환하는 메서드
+    //is_deleted() 값 확인
+    public MemberDto findById(Long memberId) {
+        MemberEntity memberEntity = memberRepository.findById(memberId)
+            .filter(member -> !member.is_deleted()) // 탈퇴 여부 필터링 확인
+            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+        
+        return toDto(memberEntity);
+    }
+    
+    // refresh token으로 Optional<MemberEntity>를 MemberDto로 변환하는 메서드
     public MemberDto getMemberDtoFromRefreshToken(String refreshToken) {
         System.out.println("#MemberService Received refresh token: " + refreshToken); // 리프레시 토큰을 출력
 
@@ -111,8 +120,25 @@ public class MemberService {
                 .member_id(member_id)
                 .build();
         }
-
-        
     }
+    
+    @Transactional
+    public void deleteMember(Long memberId) {
+        // 회원을 찾아옴
+        MemberEntity memberEntity = memberRepository.findById(memberId)
+            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+        
+        // 탈퇴 처리: nickname을 "탈퇴회원"으로 변경하고 나머지 필드를 초기화
+        memberEntity.setNickname("탈퇴회원");
+        memberEntity.setProfile_image(null); // 프로필 이미지 초기화
+        memberEntity.setPoint(0); // 포인트 초기화
+        memberEntity.setAttendance(false); // 출석 여부 초기화
+        memberEntity.setRefreshToken(null); // 리프레시 토큰 초기화
+        memberEntity.set_deleted(true); // 탈퇴 여부 설정
+
+        // 변경된 엔티티 저장
+        memberRepository.save(memberEntity);
+    }
+
 
 }
